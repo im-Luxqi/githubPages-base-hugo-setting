@@ -75,7 +75,15 @@ pygmentsCodefencesGuessSyntax = true
     name = "博客"
     url = ""
     weight = 1
-
+	
+	
+	
+[[menu.main]]
+    name = "规划"
+    url = "study-planning/study-planning/"
+    weight = 1
+	
+	
 [[menu.main]]
     name = "关于我"
     url = "page/about/"
