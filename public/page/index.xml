@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Day day up</title>
+    <link>https://im-Luxqi.github.io/page/</link>
+    <description>Recent content in Pages on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    
+	<atom:link href="https://im-Luxqi.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>星齐</title>
+      <link>https://im-Luxqi.github.io/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/page/about/</guid>
+      <description> ，
+my history  不详 2017.7.10 入职 常州瑞克斯信息科技有限公司  </description>
+    </item>
+    
+  </channel>
+</rss>
