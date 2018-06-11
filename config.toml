@@ -30,9 +30,9 @@ pygmentsCodefencesGuessSyntax = true
 
 [Params.gitment]          # Gitment is a comment system based on GitHub issues. see https://github.com/imsun/gitment
     owner = "im-Luxqi"              # Your GitHub ID
-    repo = "approachHill_eleven"               # The repo to store comments
+    repo = "pictureRepository"               # The repo to store comments
     clientId = "ef956f416c29fa565b89"           # Your client ID
-    clientSecret = "00fa6440dc03d57619b74d2a6a54b9335d85cb05"       # Your client secret
+    clientSecret = "4bcd2a7d77d2cdac439c4caf58c6202e50256468"       # Your client secret
 
 #[[Params.bigimg]]
 #  src = "img/triangle.jpg"
