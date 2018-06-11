@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>数据库备份</title>
+  <meta property="og:title" content="数据库备份" />
+  <meta name="twitter:title" content="数据库备份" />
+  <meta name="description" content="">
+  <meta property="og:description" content="">
+  <meta name="twitter:description" content="">
+  <meta name="author" content="XingQi.wang"/>
+  <link href='https://im-Luxqi.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://im-Luxqi.github.io/img/avatar-icon.png" />
+  <meta name="twitter:image" content="https://im-Luxqi.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://im-Luxqi.github.io/post/2018-06-09-common-databasebackup/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Day day up" />
+
+  <meta name="generator" content="Hugo 0.40.2" />
+  <link rel="canonical" href="https://im-Luxqi.github.io/post/2018-06-09-common-databasebackup/" />
+  <link rel="alternate" href="https://im-Luxqi.github.io/index.xml" type="application/rss+xml" title="Day day up">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://im-Luxqi.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://im-Luxqi.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://im-Luxqi.github.io/css/codeblock.css" />
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">切换导航</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://im-Luxqi.github.io">往事随风</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="博客" href="/">博客</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="规划" href="/study-planning/study-planning/">规划</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="关于我" href="/page/about/">关于我</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="标签" href="/tags">标签</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Day day up" href="https://im-Luxqi.github.io">
+            <img class="avatar-img" src="https://im-Luxqi.github.io/img/avatar-icon.png" alt="Day day up" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>数据库备份</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;发表于 2018-06-07
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 2 分钟 (254 个字)
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<p>这两天项目有数据库备份的要求,花了一段时间整理一份通用的备份接口方便以后的查阅。</p>
+
+<p><strong>关于数据库备份</strong> <br/>
+1.对于postgre数据库：pg_dump的相关指令可以通过 pg_dump &ndash;help查看,其他数据库同理；
+2.backupDb方法，方法体内通过调用外部进程方式备份数据库；</p>
+
+<h4 id="一-配置文件">一、配置文件</h4>
+
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="err">#</span> <span class="nx">db</span> <span class="nx">backup</span>
+<span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">db</span><span class="p">.</span><span class="nx">username</span><span class="o">=</span><span class="nx">root</span>
+<span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">db</span><span class="p">.</span><span class="nx">password</span><span class="o">=</span><span class="nx">root</span>
+<span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">dir</span><span class="o">=</span><span class="nx">Z</span><span class="o">:</span><span class="err">/backup/mysql</span>
+<span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">dbname</span><span class="o">=</span><span class="mi">3</span><span class="nx">f</span><span class="o">-</span><span class="nx">uat</span>
+<span class="err">#</span><span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">db</span><span class="p">.</span><span class="nx">keep配置数据库备份文件保留个数</span>
+<span class="nx">sys</span><span class="p">.</span><span class="nx">backup</span><span class="p">.</span><span class="nx">db</span><span class="p">.</span><span class="nx">database</span><span class="o">=</span><span class="nx">mysql</span>
+<span class="nx">pg96</span><span class="p">.</span><span class="nx">dir</span><span class="o">=</span><span class="nx">D</span><span class="o">:</span><span class="err">/PostgreSQL/10/bin/pg_dump</span>
+<span class="nx">pg96</span><span class="p">.</span><span class="nx">cmd</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">},</span><span class="o">-</span><span class="nx">U</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="o">-</span><span class="nx">d</span><span class="p">{</span><span class="mi">2</span><span class="p">},</span><span class="o">-</span><span class="nx">f</span><span class="p">{</span><span class="mi">3</span><span class="p">},</span><span class="o">-</span><span class="nx">Eutf8</span><span class="p">,</span><span class="o">-</span><span class="nx">h127</span><span class="mf">.0.0.1</span><span class="p">,</span><span class="o">-</span><span class="nx">p5432</span>
+<span class="nx">pg96</span><span class="p">.</span><span class="nx">env</span><span class="o">=</span><span class="nx">PGPASSWORD</span><span class="o">:</span><span class="nx">root</span><span class="p">,</span>
+<span class="nx">mysql</span><span class="p">.</span><span class="nx">dir</span><span class="o">=</span><span class="nx">C</span><span class="o">:</span><span class="err">/Program Files/MySQL/MySQL Server 5.6/bin/mysqldump</span>
+<span class="nx">mysql</span><span class="p">.</span><span class="nx">cmd</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">},</span><span class="o">-</span><span class="nx">u</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="o">-</span><span class="nx">p</span><span class="p">{</span><span class="mi">4</span><span class="p">},</span><span class="o">-</span><span class="nx">r</span><span class="p">{</span><span class="mi">3</span><span class="p">},</span><span class="o">--</span><span class="nx">set</span><span class="o">-</span><span class="nx">charset</span><span class="o">=</span><span class="nx">UTF8</span><span class="p">,{</span><span class="mi">2</span><span class="p">},</span><span class="o">-</span><span class="nx">h127</span><span class="mf">.0.0.1</span><span class="p">,</span>
+<span class="nx">mysql</span><span class="p">.</span><span class="nx">env</span><span class="o">=</span>
+<span class="err">#</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">dir</span><span class="o">=</span>
+<span class="err">#</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">cmd</span><span class="o">=</span>
+<span class="err">#</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">env</span><span class="o">=</span>
+</code></pre></div>
+
+<h4 id="二-备份接口">二、备份接口</h4>
+
+<p><div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">public</span> <span class="kr">static</span> <span class="kr">boolean</span> <span class="nx">backupDb</span><span class="p">()</span> <span class="p">{</span>
+        <span class="cm">/*
+</span><span class="cm">        * 从配置文件中解析所要参数
+</span><span class="cm">        *   dbname： 数据库名称
+</span><span class="cm">        *   username: 进入数据库所需要的用户名
+</span><span class="cm">        *   password: 进入数据库所需要的口令
+</span><span class="cm">        *   cmd: 指令
+</span><span class="cm">        *   backuppath： 备份所到路径
+</span><span class="cm">        * */</span>
+        <span class="nb">String</span> <span class="nx">database</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="s2">&#34;sys.backup.db.database&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">dbname</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="s2">&#34;sys.backup.dbname&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="s2">&#34;sys.backup.db.username&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="s2">&#34;sys.backup.db.password&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">backupDir</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="s2">&#34;sys.backup.dir&#34;</span><span class="p">);</span>
+
+        <span class="nb">String</span> <span class="nx">cmd</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="nx">database</span><span class="o">+</span><span class="s2">&#34;.cmd&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">cmdDir</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="nx">database</span><span class="o">+</span><span class="s2">&#34;.dir&#34;</span><span class="p">);</span>
+
+
+        <span class="c1">//env环境(prostgre数据库无法直接从命令行输入密码,这里通过配置环境属性“PGPASSWORD”来解决)
+</span><span class="c1"></span>        <span class="nx">Map</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="o">&gt;</span> <span class="nx">envMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+        <span class="nb">String</span> <span class="nx">envstring</span> <span class="o">=</span> <span class="nx">AppConfig</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">(</span><span class="nx">database</span><span class="o">+</span><span class="s2">&#34;.env&#34;</span><span class="p">);</span>
+        <span class="nb">String</span><span class="p">[]</span> <span class="nx">split</span> <span class="o">=</span> <span class="nx">envstring</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="nb">String</span> <span class="nx">string</span> <span class="o">:</span> <span class="nx">split</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">String</span><span class="p">[]</span> <span class="nx">sp</span> <span class="o">=</span> <span class="nx">string</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&#34;:&#34;</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">sp</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">2</span><span class="p">){</span>
+                <span class="nx">envMap</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nx">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+
+        <span class="c1">//备份存放地址
+</span><span class="c1"></span>        <span class="nb">Date</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+        <span class="nx">SimpleDateFormat</span> <span class="nx">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SimpleDateFormat</span><span class="p">(</span><span class="s2">&#34;yyyyMMddHHmmss&#34;</span><span class="p">);</span>
+        <span class="nb">String</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">sdf</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span><span class="o">+</span> <span class="nx">dbname</span> <span class="o">+</span> <span class="s2">&#34;.tar&#34;</span><span class="p">;</span> <span class="c1">// 备份文件名称
+</span><span class="c1"></span>
+        <span class="nx">File</span> <span class="nx">saveFile</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">File</span><span class="p">(</span><span class="nx">backupDir</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">saveFile</span><span class="p">.</span><span class="nx">exists</span><span class="p">())</span> <span class="p">{</span> <span class="c1">// 如果目录不存在
+</span><span class="c1"></span>            <span class="nx">saveFile</span><span class="p">.</span><span class="nx">mkdirs</span><span class="p">();</span>  <span class="c1">// 创建文件夹
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="nb">String</span> <span class="nx">backuppath</span> <span class="o">=</span> <span class="nx">backupDir</span> <span class="o">+</span><span class="s2">&#34;/&#34;</span><span class="o">+</span> <span class="nx">filename</span><span class="p">;</span>
+
+        <span class="cm">/*
+</span><span class="cm">        * 备份操作
+</span><span class="cm">        *   cmdTemp： 命令模版
+</span><span class="cm">        * */</span>
+        <span class="kr">boolean</span> <span class="nx">flag</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="c1">// 备份是否成功
+</span><span class="c1"></span>        <span class="nx">Process</span> <span class="nx">p</span><span class="p">;</span>
+        <span class="nx">ProcessBuilder</span> <span class="nx">pb</span><span class="p">;</span>
+        <span class="nx">Runtime</span> <span class="nx">rt</span> <span class="o">=</span> <span class="nx">Runtime</span><span class="p">.</span><span class="nx">getRuntime</span><span class="p">();</span>
+	<span class="c1">// 命令模版
+</span><span class="c1"></span>        <span class="nb">String</span> <span class="nx">cmdTemp</span> <span class="o">=</span> <span class="nx">MessageFormat</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">cmdDir</span><span class="p">,</span><span class="nx">username</span><span class="p">,</span><span class="nx">dbname</span><span class="p">,</span><span class="nx">backuppath</span><span class="p">,</span><span class="nx">password</span><span class="p">);</span>
+        <span class="nx">List</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">Arrays</span><span class="p">.</span><span class="nx">asList</span><span class="p">(</span><span class="nx">cmdTemp</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">));</span>
+        <span class="nx">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProcessBuilder</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="kr">final</span> <span class="nx">Map</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="o">&gt;</span> <span class="nx">env</span> <span class="o">=</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">environment</span><span class="p">();</span>
+            <span class="nx">env</span><span class="p">.</span><span class="nx">putAll</span><span class="p">(</span><span class="nx">envMap</span><span class="p">);</span> <span class="c1">// 环境设置
+</span><span class="c1"></span>            <span class="nx">p</span> <span class="o">=</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span> <span class="c1">// 执行备份命令
+</span><span class="c1"></span>            <span class="kr">final</span> <span class="nx">BufferedReader</span> <span class="nx">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BufferedReader</span><span class="p">(</span>
+                    <span class="k">new</span> <span class="nx">InputStreamReader</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">getErrorStream</span><span class="p">()));</span>
+            <span class="nb">String</span> <span class="nx">line</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">line</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span>
+
+            <span class="p">{</span> <span class="nx">System</span><span class="p">.</span><span class="nx">err</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="nx">line</span><span class="p">);</span> <span class="nx">line</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">readLine</span><span class="p">();</span> <span class="p">}</span>
+            <span class="nx">r</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+            <span class="nx">p</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">();</span>
+            <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">exitValue</span><span class="p">());</span>
+
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">IOException</span> <span class="o">|</span> <span class="nx">InterruptedException</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">());</span>
+            <span class="nx">flag</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">flag</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></p>
+
+<h4 id="三-恢复数据库">三、恢复数据库</h4>
+
+<p><div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">调整相应的命令模板</span>
+<span class="nx">例如prostgre数据库</span><span class="err">：</span> 
+<span class="nb">String</span> <span class="nx">cmd</span> <span class="o">=</span> <span class="nx">D</span><span class="o">:</span><span class="err">/PostgreSQL/10/bin;</span>
+<span class="nb">String</span> <span class="nx">cmdTemp</span> <span class="o">=</span> <span class="nx">MessageFormat</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">&#34;{0}/psql,-U{1},-d{2},-f{3}&#34;</span><span class="p">,</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">username</span><span class="p">,</span><span class="nx">dbname</span><span class="p">,</span><span class="nx">backuppath</span><span class="p">);</span>
+</code></pre></div></p>
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://im-Luxqi.github.io/tags/%E5%9F%BA%E7%A1%80%E6%9D%82%E8%AE%B0/">基础杂记</a>&nbsp;
+            
+          </div>
+        
+
+        
+		
+		<div id="container"></div>
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://im-Luxqi.github.io/post/2018-06-07-common-regularexpression/" data-toggle="tooltip" data-placement="top" title="正则表达式">&larr; 前一篇</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+
+const myTheme = {
+  render(state, instance) {
+    const container = document.createElement('div')
+    container.lang = "en-US"
+    container.className = 'gitment-container gitment-root-container'
+    container.appendChild(instance.renderHeader(state, instance))
+    container.appendChild(instance.renderEditor(state, instance))
+    container.appendChild(instance.renderComments(state, instance))
+    
+    return container
+  },
+}
+
+
+
+var gitment = new Gitment({
+  
+  owner: 'im-Luxqi',
+  repo: 'approachHill_eleven',
+  theme: myTheme,
+  oauth: {
+    client_id: 'ef956f416c29fa565b89',
+    client_secret: '00fa6440dc03d57619b74d2a6a54b9335d85cb05',
+  },
+})
+gitment.render('container')
+</script>
+
+
+
+
+    
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:im_Luxqi@163.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/im-Luxqi" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://im-Luxqi.github.io/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="yourwebsite.com">XingQi.wang</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://im-Luxqi.github.io">Day day up</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://im-Luxqi.github.io/js/main.js"></script>
+<script src="https://im-Luxqi.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://im-Luxqi.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+  </body>
+</html>
+
