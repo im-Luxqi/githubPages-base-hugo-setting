@@ -32,7 +32,7 @@ pygmentsCodefencesGuessSyntax = true
     owner = "im-Luxqi"              # Your GitHub ID
     repo = "issueGitcomment"               # The repo to store comments
     clientId = "ef956f416c29fa565b89"           # Your client ID
-    clientSecret = "763f3874c2e3e6fbdc0e5e4cd5d6dd5d591cc64c"       # Your client secret
+    clientSecret = "c66dc537e5706b89c2aa1b8232583f567b6380e3"       # Your client secret
 
 #[[Params.bigimg]]
 #  src = "img/triangle.jpg"
