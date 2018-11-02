@@ -16,7 +16,7 @@ pygmentsCodefencesGuessSyntax = true
 [Params]
 #  homeTitle = "XingQi.wang Theme" # Set a different text for the header on the home page
   subtitle = "快乐每一天"
-  logo = "img/avatar-icon.png"
+  logo = "img/my.jpg"
   favicon = "img/favicon.ico"
   dateFormat = "2006-01-02" # January 2, 2006
   commit = false
@@ -75,28 +75,32 @@ pygmentsCodefencesGuessSyntax = true
     name = "博客"
     url = ""
     weight = 1
+	
+[[menu.main]]
+	name = "标签"
+	url = "tags"
+	weight = 2
 
+	
 [[menu.main]]
     name = "规划"
     url = "page/planning/"
-    weight = 1
-
-[[menu.main]]
-    name = "关于我"
-    url = "page/about/"
     weight = 3
-
-[[menu.main]]
-name = "标签"
-url = "tags"
-weight = 3
-
-
 
 [[menu.main]]
     name = "同事"
     url = "page/partner/"
-    weight = 1
+    weight = 4
+	
+[[menu.main]]
+    name = "关于我"
+    url = "page/about/"
+    weight = 5
+
+[[menu.main]]
+    name = "常用工具"
+    url = "page/workingfile/"
+    weight = 6
 	
 #[[menu.main]]
 #    identifier = "samples"
