@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>碎片代码 on Day day up</title>
+    <link>https://im-Luxqi.github.io/tags/%E7%A2%8E%E7%89%87%E4%BB%A3%E7%A0%81/</link>
+    <description>Recent content in 碎片代码 on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    <lastBuildDate>Fri, 02 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://im-Luxqi.github.io/tags/%E7%A2%8E%E7%89%87%E4%BB%A3%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Excel导入导出（POI）</title>
+      <link>https://im-Luxqi.github.io/post/20181102-broken/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20181102-broken/</guid>
+      <description>&lt;p&gt;记录一些工作中零碎的代码&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

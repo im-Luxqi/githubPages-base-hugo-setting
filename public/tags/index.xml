@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Day day up</title>
+    <link>https://im-Luxqi.github.io/tags/</link>
+    <description>Recent content in Tags on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    
+	<atom:link href="https://im-Luxqi.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基础杂记</title>
+      <link>https://im-Luxqi.github.io/tags/%E5%9F%BA%E7%A1%80%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Thu, 14 Jun 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/tags/%E5%9F%BA%E7%A1%80%E6%9D%82%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>常用设计模式</title>
+      <link>https://im-Luxqi.github.io/tags/%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/tags/%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微信平台</title>
+      <link>https://im-Luxqi.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B9%B3%E5%8F%B0/</link>
+      <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B9%B3%E5%8F%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>碎片代码</title>
+      <link>https://im-Luxqi.github.io/tags/%E7%A2%8E%E7%89%87%E4%BB%A3%E7%A0%81/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/tags/%E7%A2%8E%E7%89%87%E4%BB%A3%E7%A0%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>面试</title>
+      <link>https://im-Luxqi.github.io/tags/%E9%9D%A2%E8%AF%95/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/tags/%E9%9D%A2%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

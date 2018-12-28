@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+
+https://im-Luxqi.github.io/js/common.js
+<link rel="stylesheet" href="https://im-Luxqi.github.io/css/style.css" type="text/css" media="screen, projection" />
+<link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="https://im-Luxqi.github.io/js/verlet-1.0.0.js"></script>
+<script type="text/javascript" src="https://im-Luxqi.github.io/js/common.js"></script>
+  
+
+  <title>动态代理</title>
+  <meta property="og:title" content="动态代理" />
+  <meta name="twitter:title" content="动态代理" />
+  <meta name="description" content="设计模式更多的是一种语意，而不是一种语法；
+
+">
+  <meta property="og:description" content="设计模式更多的是一种语意，而不是一种语法；
+
+">
+  <meta name="twitter:description" content="设计模式更多的是一种语意，而不是一种语法；
+
+">
+  <meta name="author" content="XingQi.wang"/>
+  <link href='https://im-Luxqi.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://im-Luxqi.github.io/img/my.jpg" />
+  <meta name="twitter:image" content="https://im-Luxqi.github.io/img/my.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://im-Luxqi.github.io/post/20181022-proxy/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Day day up" />
+
+  <meta name="generator" content="Hugo 0.49.1" />
+  <link rel="canonical" href="https://im-Luxqi.github.io/post/20181022-proxy/" />
+  <link rel="alternate" href="https://im-Luxqi.github.io/index.xml" type="application/rss+xml" title="Day day up">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://im-Luxqi.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://im-Luxqi.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://im-Luxqi.github.io/css/codeblock.css" />
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+  <canvas id="scratch" style="width:400px;height: 1000px"></canvas>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">切换导航</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://im-Luxqi.github.io">往事随风</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="博客" href="/">博客</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="标签" href="/tags">标签</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="规划" href="/page/planning/">规划</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="同事" href="/page/partner/">同事</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="关于我" href="/page/about/">关于我</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="常用工具" href="/page/workingfile/">常用工具</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Day day up" href="https://im-Luxqi.github.io">
+            <img class="avatar-img" src="https://im-Luxqi.github.io/img/my.jpg" alt="Day day up" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>动态代理</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;发表于 2018-10-22
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 4 分钟 (744 个字)
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+		
+      <article role="main" class="blog-post">
+        <p>设计模式更多的是一种语意，而不是一种语法；</p>
+
+<p></p>
+
+<h4 id="一-了解代理">一、了解代理</h4>
+
+<p><font color=green >问题：1.要知道一个方法的运行时间？（不更改源码）</font></p>
+
+<p><strong>@1继承，用子类代理父类的方式实现。</strong>
+
+<link rel="stylesheet" href="/css/hugo-easy-gallery.css" />
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/1.jpg" />
+    </div>
+    <a href="/img/study_proxy/1.jpg" itemprop="contentUrl"></a>
+  </figure>
+</div>
+<strong>@2实现，聚合方式实现代理。</strong>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/2.jpg" />
+    </div>
+    <a href="/img/study_proxy/2.jpg" itemprop="contentUrl"></a>
+  </figure>
+</div></p>
+
+<p><font color=green >问题：2.需要进行多种操作，在计算时间时，同时添加日志、事务&hellip;、&hellip;操作？</font><br>
+<strong>@1继承实现代理的方式,臃肿、繁琐</strong><br>
+&emsp;&emsp;需要无限向下创建子类进行代理。<br>
+<strong>@2聚合方式，更加便捷方便。</strong>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/3.jpg" />
+    </div>
+    <a href="/img/study_proxy/3.jpg" itemprop="contentUrl"></a>
+  </figure>
+</div></p>
+
+<h4 id="二-了解动态代理">二、了解动态代理</h4>
+
+<p><strong>静态代理：</strong> 代理类事先自己定义好，程序运行前编译完成;<br>
+<strong>动态代理：</strong> 程序运行时创建代理类;<br>
+<font color=red >@1代理类的创建过程简单概述</font></p>
+<div class="highlight"><pre class="chroma">    要实现动态代理，需要一个代理类的实例Proxy.newProxyInstance
+    1.需要java字节码文件,根本不需要知道代理类的具体类名;
+      实现动态的编译有多种方式
+        a. jdk6 complier API（字符串类编译）
+        b. CGLib,ASM (直接生成字节码)
+    2.将java字节码文件加载到内存，并创建实例;</pre></div>
+<p><font color=green size=2>动态生成TankTimeProxy</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln"> 1</span><span class="kr">public</span> <span class="k">class</span> <span class="nx">TestA</span> <span class="p">{</span>
+<span class="ln"> 2</span>    <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">arg</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">Exception</span> <span class="p">{</span>
+<span class="ln"> 3</span>        <span class="nb">String</span> <span class="nx">rt</span> <span class="o">=</span> <span class="s2">&#34;\r\n&#34;</span><span class="p">;</span><span class="c1">//windows下的换行符
+</span><span class="ln"> 4</span><span class="c1"></span>        <span class="nb">String</span> <span class="nx">src</span> <span class="o">=</span>
+<span class="ln"> 5</span>                <span class="s2">&#34;package com.proxy;&#34;</span> <span class="o">+</span>  <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln"> 6</span>                        <span class="s2">&#34;public class TankTimeProxy implements Movable {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln"> 7</span>                        <span class="s2">&#34;    public TankTimeProxy(Movable t) {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln"> 8</span>                        <span class="s2">&#34;        super();&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln"> 9</span>                        <span class="s2">&#34;        this.t = t;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">10</span>                        <span class="s2">&#34;    }&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">11</span>
+<span class="ln">12</span>                        <span class="s2">&#34;    Movable t;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">13</span>
+<span class="ln">14</span>                        <span class="s2">&#34;    @Override&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">15</span>                        <span class="s2">&#34;    public void move() {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">16</span>                        <span class="s2">&#34;        long start = System.currentTimeMillis();&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">17</span>                        <span class="s2">&#34;        System.out.println(\&#34;starttime:\&#34; + start);&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">18</span>                        <span class="s2">&#34;        t.move();&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">19</span>                        <span class="s2">&#34;        long end = System.currentTimeMillis();&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">20</span>                        <span class="s2">&#34;        System.out.println(\&#34;time:\&#34; + (end-start));&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">21</span>                        <span class="s2">&#34;    }&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">22</span>                        <span class="s2">&#34;}&#34;</span><span class="p">;</span>
+<span class="ln">23</span>        <span class="nb">String</span> <span class="nx">fileName</span> <span class="o">=</span> <span class="nx">System</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&#34;user.dir&#34;</span><span class="p">)</span>
+<span class="ln">24</span>                <span class="o">+</span> <span class="s2">&#34;/src/com/proxy/TankTimeProxy.java&#34;</span><span class="p">;</span>
+<span class="ln">25</span>        <span class="nx">File</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">File</span><span class="p">(</span><span class="nx">fileName</span><span class="p">);</span>
+<span class="ln">26</span>        <span class="nx">FileWriter</span> <span class="nx">fw</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileWriter</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span>
+<span class="ln">27</span>        <span class="nx">fw</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">src</span><span class="p">);</span>
+<span class="ln">28</span>        <span class="nx">fw</span><span class="p">.</span><span class="nx">flush</span><span class="p">();</span>
+<span class="ln">29</span>        <span class="nx">fw</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="ln">30</span>
+<span class="ln">31</span>        <span class="c1">//compile
+</span><span class="ln">32</span><span class="c1"></span>        <span class="nx">JavaCompiler</span> <span class="nx">compiler</span> <span class="o">=</span> <span class="nx">ToolProvider</span><span class="p">.</span><span class="nx">getSystemJavaCompiler</span><span class="p">();</span>
+<span class="ln">33</span>        <span class="nx">StandardJavaFileManager</span> <span class="nx">fileMgr</span> <span class="o">=</span> <span class="nx">compiler</span><span class="p">.</span><span class="nx">getStandardFileManager</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+<span class="ln">34</span>        <span class="nx">Iterable</span> <span class="nx">units</span> <span class="o">=</span> <span class="nx">fileMgr</span><span class="p">.</span><span class="nx">getJavaFileObjects</span><span class="p">(</span><span class="nx">fileName</span><span class="p">);</span>
+<span class="ln">35</span>        <span class="nx">JavaCompiler</span><span class="p">.</span><span class="nx">CompilationTask</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">compiler</span><span class="p">.</span><span class="nx">getTask</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">fileMgr</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">units</span><span class="p">);</span>
+<span class="ln">36</span>        <span class="nx">t</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
+<span class="ln">37</span>        <span class="nx">fileMgr</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="ln">38</span>
+<span class="ln">39</span>        <span class="c1">//load into memory and create an instance
+</span><span class="ln">40</span><span class="c1"></span>        <span class="nx">URL</span><span class="p">[]</span> <span class="nx">urls</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URL</span><span class="p">[]</span> <span class="p">{</span><span class="k">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s2">&#34;file:/&#34;</span> <span class="o">+</span> <span class="nx">System</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&#34;user.dir&#34;</span><span class="p">)</span> <span class="o">+</span><span class="s2">&#34;/src&#34;</span><span class="p">)};</span>
+<span class="ln">41</span>        <span class="nx">URLClassLoader</span> <span class="nx">ul</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLClassLoader</span><span class="p">(</span><span class="nx">urls</span><span class="p">);</span>
+<span class="ln">42</span>        <span class="nx">Class</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">ul</span><span class="p">.</span><span class="nx">loadClass</span><span class="p">(</span><span class="s2">&#34;com.proxy.TankTimeProxy&#34;</span><span class="p">);</span>
+<span class="ln">43</span>        <span class="nx">Constructor</span> <span class="nx">ctr</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">getConstructor</span><span class="p">(</span><span class="nx">Movable</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
+<span class="ln">44</span>        <span class="nx">Movable</span> <span class="nx">m</span> <span class="o">=</span> <span class="p">(</span><span class="nx">Movable</span><span class="p">)</span><span class="nx">ctr</span><span class="p">.</span><span class="nx">newInstance</span><span class="p">(</span><span class="k">new</span> <span class="nx">Tank</span><span class="p">());</span>
+<span class="ln">45</span>        <span class="nx">m</span><span class="p">.</span><span class="nx">move</span><span class="p">();</span>
+<span class="ln">46</span>    <span class="p">}</span>
+<span class="ln">47</span><span class="p">}</span>
+<span class="ln">48</span></code></pre></div>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/4.jpg" />
+    </div>
+    <a href="/img/study_proxy/4.jpg" itemprop="contentUrl"></a>
+  </figure>
+</div>
+<font color=red >@2完善字符串类适应各需求</font></p>
+<div class="highlight"><pre class="chroma">    按需求任意拼装字符串
+    1.任意interface的代理：
+                            传入接口,Proxy.newProxyInstance&lt;Class interface&gt;    
+    2.implements了该interface的所有方法都代理：
+                            利用反射得到该接口的所有方法,然后组织字符串;</pre></div>
+<p><font color=red >@3完善处理方式</font><br>
+当前代理只能完成时间处理，因为我们的处理是写死在代码里的；<br>
+before:<code>long start = System.currentTimeMillis();</code><br>
+after:<code>long end = System.currentTimeMillis();</code></p>
+<div class="highlight"><pre class="chroma">    解决思路：方法里before干什么，after干什么，由别人动态的指定;
+             也就是说方法不用自己执行，交给别人执行，让别人去处理;</pre></div>
+<p><font color=green size=2>方法交给handler处理</font>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/5.png" />
+    </div>
+    <a href="/img/study_proxy/5.png" itemprop="contentUrl"></a>
+  </figure>
+</div>
+<strong>完善上述思路，方法的实现需要得到具体对象,调整代码</strong>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/6.png" />
+    </div>
+    <a href="/img/study_proxy/6.png" itemprop="contentUrl"></a>
+  </figure>
+</div>
+<strong>就此，动态代理解析清楚了</strong></p>
+
+<h4 id="三-实践">三、实践</h4>
+
+<p><strong>实现一个简单的Transaction处理Demo</strong>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/img/study_proxy/7.jpg" />
+    </div>
+    <a href="/img/study_proxy/7.jpg" itemprop="contentUrl"></a>
+  </figure>
+</div>
+<font color=red >@实现代码</font><br>
+<font color=green size=2>Proxy</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln"> 1</span><span class="kr">public</span> <span class="k">class</span> <span class="nb">Proxy</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="kr">public</span> <span class="kr">static</span> <span class="nb">Object</span> <span class="nx">newProxyInstance</span><span class="p">(</span><span class="nx">Class</span> <span class="nx">infce</span><span class="p">,</span> <span class="nx">InvocationHandler</span> <span class="nx">h</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">Exception</span> <span class="p">{</span>
+<span class="ln"> 3</span>		<span class="nb">String</span> <span class="nx">methodStr</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+<span class="ln"> 4</span>		<span class="nb">String</span> <span class="nx">rt</span> <span class="o">=</span> <span class="s2">&#34;\r\n&#34;</span><span class="p">;</span>
+<span class="ln"> 5</span>		
+<span class="ln"> 6</span>		<span class="nx">Method</span><span class="p">[]</span> <span class="nx">methods</span> <span class="o">=</span> <span class="nx">infce</span><span class="p">.</span><span class="nx">getMethods</span><span class="p">();</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>		<span class="k">for</span><span class="p">(</span><span class="nx">Method</span> <span class="nx">m</span> <span class="o">:</span> <span class="nx">methods</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 9</span>			<span class="nx">methodStr</span> <span class="o">+=</span> <span class="s2">&#34;@Override&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span> 
+<span class="ln">10</span>						 <span class="s2">&#34;public void &#34;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;() {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">11</span>						 <span class="s2">&#34;    try {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">12</span>						 <span class="s2">&#34;    Method md = &#34;</span> <span class="o">+</span> <span class="nx">infce</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;.class.getMethod(\&#34;&#34;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;\&#34;);&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">13</span>						 <span class="s2">&#34;    h.invoke(this, md);&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">14</span>						 <span class="s2">&#34;    }catch(Exception e) {e.printStackTrace();}&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">15</span>						
+<span class="ln">16</span>						 <span class="s2">&#34;}&#34;</span><span class="p">;</span>
+<span class="ln">17</span>		<span class="p">}</span>
+<span class="ln">18</span>		
+<span class="ln">19</span>		<span class="nb">String</span> <span class="nx">src</span> <span class="o">=</span> 
+<span class="ln">20</span>			<span class="s2">&#34;package com.cn.proxy;&#34;</span> <span class="o">+</span>  <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">21</span>			<span class="s2">&#34;import java.lang.reflect.Method;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">22</span>			<span class="s2">&#34;import Test.InvocationHandler;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">23</span>			<span class="s2">&#34;public class $Proxy1 implements &#34;</span> <span class="o">+</span> <span class="nx">infce</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;{&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">24</span>			<span class="s2">&#34;    public $Proxy1(InvocationHandler h) {&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">25</span>			<span class="s2">&#34;        this.h = h;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">26</span>			<span class="s2">&#34;    }&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">27</span>			
+<span class="ln">28</span>			
+<span class="ln">29</span>			<span class="s2">&#34;    Test.InvocationHandler h;&#34;</span> <span class="o">+</span> <span class="nx">rt</span> <span class="o">+</span>
+<span class="ln">30</span>							
+<span class="ln">31</span>			<span class="nx">methodStr</span> <span class="o">+</span>
+<span class="ln">32</span>			<span class="s2">&#34;}&#34;</span><span class="p">;</span>
+<span class="ln">33</span>		<span class="nb">String</span> <span class="nx">fileName</span> <span class="o">=</span> 
+<span class="ln">34</span>			<span class="s2">&#34;d:/studyTest/src/com/cn/proxy/$Proxy1.java&#34;</span><span class="p">;</span>
+<span class="ln">35</span>		<span class="nx">File</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">File</span><span class="p">(</span><span class="nx">fileName</span><span class="p">);</span>
+<span class="ln">36</span>		<span class="nx">FileWriter</span> <span class="nx">fw</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileWriter</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span>
+<span class="ln">37</span>		<span class="nx">fw</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">src</span><span class="p">);</span>
+<span class="ln">38</span>		<span class="nx">fw</span><span class="p">.</span><span class="nx">flush</span><span class="p">();</span>
+<span class="ln">39</span>		<span class="nx">fw</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="ln">40</span>		
+<span class="ln">41</span>		<span class="c1">//compile
+</span><span class="ln">42</span><span class="c1"></span>		<span class="nx">JavaCompiler</span> <span class="nx">compiler</span> <span class="o">=</span> <span class="nx">ToolProvider</span><span class="p">.</span><span class="nx">getSystemJavaCompiler</span><span class="p">();</span>
+<span class="ln">43</span>		<span class="nx">StandardJavaFileManager</span> <span class="nx">fileMgr</span> <span class="o">=</span> <span class="nx">compiler</span><span class="p">.</span><span class="nx">getStandardFileManager</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+<span class="ln">44</span>		<span class="nx">Iterable</span> <span class="nx">units</span> <span class="o">=</span> <span class="nx">fileMgr</span><span class="p">.</span><span class="nx">getJavaFileObjects</span><span class="p">(</span><span class="nx">fileName</span><span class="p">);</span>
+<span class="ln">45</span>		<span class="nx">CompilationTask</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">compiler</span><span class="p">.</span><span class="nx">getTask</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">fileMgr</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">units</span><span class="p">);</span>
+<span class="ln">46</span>		<span class="nx">t</span><span class="p">.</span><span class="nx">call</span><span class="p">();</span>
+<span class="ln">47</span>		<span class="nx">fileMgr</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="ln">48</span>		
+<span class="ln">49</span>		<span class="c1">//load into memory and create an instance
+</span><span class="ln">50</span><span class="c1"></span>		<span class="nx">URL</span><span class="p">[]</span> <span class="nx">urls</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URL</span><span class="p">[]</span> <span class="p">{</span><span class="k">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s2">&#34;file:/&#34;</span> <span class="o">+</span> <span class="s2">&#34;d:/studyTest/src/&#34;</span><span class="p">)};</span>
+<span class="ln">51</span>		<span class="nx">URLClassLoader</span> <span class="nx">ul</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLClassLoader</span><span class="p">(</span><span class="nx">urls</span><span class="p">);</span>
+<span class="ln">52</span>		<span class="nx">Class</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">ul</span><span class="p">.</span><span class="nx">loadClass</span><span class="p">(</span><span class="s2">&#34;com.cn.proxy.$Proxy1&#34;</span><span class="p">);</span>
+<span class="ln">53</span>		
+<span class="ln">54</span>		<span class="nx">Constructor</span> <span class="nx">ctr</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">getConstructor</span><span class="p">(</span><span class="nx">InvocationHandler</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
+<span class="ln">55</span>		<span class="nb">Object</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">ctr</span><span class="p">.</span><span class="nx">newInstance</span><span class="p">(</span><span class="nx">h</span><span class="p">);</span>
+<span class="ln">56</span>		<span class="c1">//m.move();
+</span><span class="ln">57</span><span class="c1"></span>
+<span class="ln">58</span>		<span class="k">return</span> <span class="nx">m</span><span class="p">;</span>
+<span class="ln">59</span>	<span class="p">}</span>
+<span class="ln">60</span><span class="p">}</span>
+<span class="ln">61</span></code></pre></div>
+<font color=green size=2>UserMgr</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln">1</span><span class="kr">public</span> <span class="kr">interface</span> <span class="nx">UserMgr</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="k">void</span> <span class="nx">addUser</span><span class="p">();</span>
+<span class="ln">3</span><span class="p">}</span>
+<span class="ln">4</span></code></pre></div>
+<font color=green size=2>UserMgrImpl</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln"> 1</span><span class="kr">public</span> <span class="k">class</span> <span class="nx">UserMgrImpl</span> <span class="kr">implements</span> <span class="nx">UserMgr</span> <span class="p">{</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>	<span class="err">@</span><span class="nx">Override</span>
+<span class="ln"> 4</span>	<span class="kr">public</span> <span class="k">void</span> <span class="nx">addUser</span><span class="p">()</span> <span class="p">{</span>
+<span class="ln"> 5</span>		<span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="s2">&#34;--------新增一条user数据&#34;</span><span class="p">);</span>
+<span class="ln"> 6</span>		<span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="s2">&#34;--------打印日志&#34;</span><span class="p">);</span>
+<span class="ln"> 7</span>	<span class="p">}</span>
+<span class="ln"> 8</span>	
+<span class="ln"> 9</span><span class="p">}</span>
+<span class="ln">10</span></code></pre></div>
+<font color=green size=2>InvocationHandler</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln">1</span><span class="kr">public</span> <span class="kr">interface</span> <span class="nx">InvocationHandler</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="kr">public</span> <span class="k">void</span> <span class="nx">invoke</span><span class="p">(</span><span class="nb">Object</span> <span class="nx">o</span><span class="p">,</span> <span class="nx">Method</span> <span class="nx">m</span><span class="p">);</span>
+<span class="ln">3</span><span class="p">}</span>
+<span class="ln">4</span></code></pre></div>
+<font color=green size=2>TransactionHandler</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln"> 1</span><span class="kr">public</span> <span class="k">class</span> <span class="nx">TransactionHandler</span> <span class="kr">implements</span> <span class="nx">InvocationHandler</span> <span class="p">{</span>
+<span class="ln"> 2</span>	
+<span class="ln"> 3</span>	<span class="kr">private</span> <span class="nb">Object</span> <span class="nx">target</span><span class="p">;</span>
+<span class="ln"> 4</span>	
+<span class="ln"> 5</span>	<span class="kr">public</span> <span class="nx">TransactionHandler</span><span class="p">(</span><span class="nb">Object</span> <span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 6</span>		<span class="k">super</span><span class="p">();</span>
+<span class="ln"> 7</span>		<span class="k">this</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="nx">target</span><span class="p">;</span>
+<span class="ln"> 8</span>	<span class="p">}</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>	<span class="err">@</span><span class="nx">Override</span>
+<span class="ln">11</span>	<span class="kr">public</span> <span class="k">void</span> <span class="nx">invoke</span><span class="p">(</span><span class="nb">Object</span> <span class="nx">o</span><span class="p">,</span> <span class="nx">Method</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">12</span>		<span class="c1">//事务开始
+</span><span class="ln">13</span><span class="c1"></span>		<span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="s2">&#34;Transaction Start&#34;</span><span class="p">);</span>
+<span class="ln">14</span>
+<span class="ln">15</span>		<span class="k">try</span> <span class="p">{</span>
+<span class="ln">16</span>			<span class="nx">m</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+<span class="ln">17</span>		<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">18</span>			<span class="nx">e</span><span class="p">.</span><span class="nx">printStackTrace</span><span class="p">();</span>
+<span class="ln">19</span>		<span class="p">}</span>
+<span class="ln">20</span>		<span class="c1">// 事务结束
+</span><span class="ln">21</span><span class="c1"></span>		<span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="s2">&#34;Transaction Commit&#34;</span><span class="p">);</span>
+<span class="ln">22</span>	<span class="p">}</span>
+<span class="ln">23</span>
+<span class="ln">24</span><span class="p">}</span>
+<span class="ln">25</span></code></pre></div>
+<font color=green size=2>ClientMain</font>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="ln"> 1</span><span class="kr">public</span> <span class="k">class</span> <span class="nx">ClientMain</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">Exception</span> <span class="p">{</span>
+<span class="ln"> 3</span>		<span class="nx">UserMgr</span> <span class="nx">mgr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UserMgrImpl</span><span class="p">();</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>		<span class="c1">//给UserMgrImpl 加上事务
+</span><span class="ln"> 6</span><span class="c1"></span>		<span class="nx">InvocationHandler</span> <span class="nx">h</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TransactionHandler</span><span class="p">(</span><span class="nx">mgr</span><span class="p">);</span>
+<span class="ln"> 7</span>		<span class="nx">UserMgr</span> <span class="nx">u</span> <span class="o">=</span> <span class="p">(</span><span class="nx">UserMgr</span><span class="p">)</span> <span class="nb">Proxy</span><span class="p">.</span><span class="nx">newProxyInstance</span><span class="p">(</span><span class="nx">UserMgr</span><span class="p">.</span><span class="k">class</span><span class="p">,</span><span class="nx">h</span><span class="p">);</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>		<span class="nx">u</span><span class="p">.</span><span class="nx">addUser</span><span class="p">();</span>
+<span class="ln">10</span>	<span class="p">}</span>
+<span class="ln">11</span><span class="p">}</span>
+<span class="ln">12</span></code></pre></div></p>
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://im-Luxqi.github.io/tags/%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">常用设计模式</a>&nbsp;
+            
+          </div>
+        
+
+        
+		
+		<div id="container"></div>
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://im-Luxqi.github.io/post/20180815-weixin/" data-toggle="tooltip" data-placement="top" title="微信公众号开发小记">&larr; 前一篇</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://im-Luxqi.github.io/post/20181022-face/" data-toggle="tooltip" data-placement="top" title="java面试（持续更新中。。。）">后一篇 &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+
+const myTheme = {
+  render(state, instance) {
+    const container = document.createElement('div')
+    container.lang = "en-US"
+    container.className = 'gitment-container gitment-root-container'
+    container.appendChild(instance.renderHeader(state, instance))
+    container.appendChild(instance.renderEditor(state, instance))
+    container.appendChild(instance.renderComments(state, instance))
+    
+    return container
+  },
+}
+
+
+
+var gitment = new Gitment({
+  
+  owner: 'im-Luxqi',
+  repo: 'issueGitcomment',
+  theme: myTheme,
+  oauth: {
+    client_id: 'ef956f416c29fa565b89',
+    client_secret: 'c66dc537e5706b89c2aa1b8232583f567b6380e3',
+  },
+})
+gitment.render('container')
+</script>
+
+
+
+
+    
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:im_Luxqi@163.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/im-Luxqi" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://im-Luxqi.github.io/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="yourwebsite.com">XingQi.wang</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://im-Luxqi.github.io">Day day up</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://im-Luxqi.github.io/js/main.js"></script>
+<script src="https://im-Luxqi.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://im-Luxqi.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+  </body>
+  <script type="text/javascript">
+	
+  
+VerletJS.prototype.spider = function(origin) {
+	var i;
+	var legSeg1Stiffness = 0.99;
+	var legSeg2Stiffness = 0.99;
+	var legSeg3Stiffness = 0.99;
+	var legSeg4Stiffness = 0.99;
+	
+	var joint1Stiffness = 1;
+	var joint2Stiffness = 0.4;
+	var joint3Stiffness = 0.9;
+	
+	var bodyStiffness = 1;
+	var bodyJointStiffness = 1;
+	
+	var composite = new this.Composite();
+	composite.legs = [];
+	
+	
+	composite.thorax = new Particle(origin);
+	composite.head = new Particle(origin.add(new Vec2(0,-5)));
+	composite.abdomen = new Particle(origin.add(new Vec2(0,10)));
+	
+	composite.particles.push(composite.thorax);
+	composite.particles.push(composite.head);
+	composite.particles.push(composite.abdomen);
+	
+	composite.constraints.push(new DistanceConstraint(composite.head, composite.thorax, bodyStiffness));
+	
+	
+	composite.constraints.push(new DistanceConstraint(composite.abdomen, composite.thorax, bodyStiffness));
+	composite.constraints.push(new AngleConstraint(composite.abdomen, composite.thorax, composite.head, 0.4));
+	
+	
+	
+	for (i=0;i<4;++i) {
+		composite.particles.push(new Particle(composite.particles[0].pos.add(new Vec2(3,(i-1.5)*3))));
+		composite.particles.push(new Particle(composite.particles[0].pos.add(new Vec2(-3,(i-1.5)*3))));
+		
+		var len = composite.particles.length;
+		
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-2], composite.thorax, legSeg1Stiffness));
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-1], composite.thorax, legSeg1Stiffness));
+		
+		
+		var lenCoef = 1;
+		if (i == 1 || i == 2)
+			lenCoef = 0.7;
+		else if (i == 3)
+			lenCoef = 0.9;
+		
+		composite.particles.push(new Particle(composite.particles[len-2].pos.add((new Vec2(20,(i-1.5)*30)).normal().mutableScale(20*lenCoef))));
+		composite.particles.push(new Particle(composite.particles[len-1].pos.add((new Vec2(-20,(i-1.5)*30)).normal().mutableScale(20*lenCoef))));
+		
+		len = composite.particles.length;
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-4], composite.particles[len-2], legSeg2Stiffness));
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-3], composite.particles[len-1], legSeg2Stiffness));
+		
+		composite.particles.push(new Particle(composite.particles[len-2].pos.add((new Vec2(20,(i-1.5)*50)).normal().mutableScale(20*lenCoef))));
+		composite.particles.push(new Particle(composite.particles[len-1].pos.add((new Vec2(-20,(i-1.5)*50)).normal().mutableScale(20*lenCoef))));
+		
+		len = composite.particles.length;
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-4], composite.particles[len-2], legSeg3Stiffness));
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-3], composite.particles[len-1], legSeg3Stiffness));
+		
+		
+		var rightFoot = new Particle(composite.particles[len-2].pos.add((new Vec2(20,(i-1.5)*100)).normal().mutableScale(12*lenCoef)));
+		var leftFoot = new Particle(composite.particles[len-1].pos.add((new Vec2(-20,(i-1.5)*100)).normal().mutableScale(12*lenCoef)))
+		composite.particles.push(rightFoot);
+		composite.particles.push(leftFoot);
+		
+		composite.legs.push(rightFoot);
+		composite.legs.push(leftFoot);
+		
+		len = composite.particles.length;
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-4], composite.particles[len-2], legSeg4Stiffness));
+		composite.constraints.push(new DistanceConstraint(composite.particles[len-3], composite.particles[len-1], legSeg4Stiffness));
+		
+		
+		composite.constraints.push(new AngleConstraint(composite.particles[len-6], composite.particles[len-4], composite.particles[len-2], joint3Stiffness));
+		composite.constraints.push(new AngleConstraint(composite.particles[len-6+1], composite.particles[len-4+1], composite.particles[len-2+1], joint3Stiffness));
+		
+		composite.constraints.push(new AngleConstraint(composite.particles[len-8], composite.particles[len-6], composite.particles[len-4], joint2Stiffness));
+		composite.constraints.push(new AngleConstraint(composite.particles[len-8+1], composite.particles[len-6+1], composite.particles[len-4+1], joint2Stiffness));
+		
+		composite.constraints.push(new AngleConstraint(composite.particles[0], composite.particles[len-8], composite.particles[len-6], joint1Stiffness));
+		composite.constraints.push(new AngleConstraint(composite.particles[0], composite.particles[len-8+1], composite.particles[len-6+1], joint1Stiffness));
+		
+		composite.constraints.push(new AngleConstraint(composite.particles[1], composite.particles[0], composite.particles[len-8], bodyJointStiffness));
+		composite.constraints.push(new AngleConstraint(composite.particles[1], composite.particles[0], composite.particles[len-8+1], bodyJointStiffness));
+	}
+	
+	this.composites.push(composite);
+	return composite;
+}
+
+VerletJS.prototype.spiderweb = function(origin, radius, segments, depth) {
+	var stiffness = 0.6;
+	var tensor = 0.3;
+	var stride = (2*Math.PI)/segments;
+	var n = segments*depth;
+	var radiusStride = radius/n;
+	var i, c;
+
+	var composite = new this.Composite();
+
+	
+	for (i=0;i<n;++i) {
+		var theta = i*stride + Math.cos(i*0.4)*0.05 + Math.cos(i*0.05)*0.2;
+		var shrinkingRadius = radius - radiusStride*i + Math.cos(i*0.1)*20;
+		
+		var offy = Math.cos(theta*2.1)*(radius/depth)*0.2;
+		composite.particles.push(new Particle(new Vec2(origin.x + Math.cos(theta)*shrinkingRadius, origin.y + Math.sin(theta)*shrinkingRadius + offy)));
+	}
+	
+	for (i=0;i<segments;i+=4)
+		composite.pin(i);
+
+	
+	for (i=0;i<n-1;++i) {
+		
+		composite.constraints.push(new DistanceConstraint(composite.particles[i], composite.particles[i+1], stiffness));
+		
+		
+		var off = i + segments;
+		if (off < n-1)
+			composite.constraints.push(new DistanceConstraint(composite.particles[i], composite.particles[off], stiffness));
+		else
+			composite.constraints.push(new DistanceConstraint(composite.particles[i], composite.particles[n-1], stiffness));
+	}
+	
+	
+	composite.constraints.push(new DistanceConstraint(composite.particles[0], composite.particles[segments-1], stiffness));
+	
+	for (c in composite.constraints)
+		composite.constraints[c].distance *= tensor;
+
+	this.composites.push(composite);
+	return composite;
+}
+
+
+
+function shuffle(o) { 
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+}
+
+VerletJS.prototype.crawl = function(leg) {
+	
+	var stepRadius = 100;
+	var minStepRadius = 35;
+	
+	var spiderweb = this.composites[0];
+	var spider = this.composites[1];
+	
+	var theta = spider.particles[0].pos.angle2(spider.particles[0].pos.add(new Vec2(1,0)), spider.particles[1].pos);
+
+	var boundry1 = (new Vec2(Math.cos(theta), Math.sin(theta)));
+	var boundry2 = (new Vec2(Math.cos(theta+Math.PI/2), Math.sin(theta+Math.PI/2)));
+	
+	
+	var flag1 = leg < 4 ? 1 : -1;
+	var flag2 = leg%2 == 0 ? 1 : 0;
+	
+	var paths = [];
+	
+	var i;
+	for (i in spiderweb.particles) {
+		if (
+			spiderweb.particles[i].pos.sub(spider.particles[0].pos).dot(boundry1)*flag1 >= 0
+			&& spiderweb.particles[i].pos.sub(spider.particles[0].pos).dot(boundry2)*flag2 >= 0
+		) {
+			var d2 = spiderweb.particles[i].pos.dist2(spider.particles[0].pos);
+			
+			if (!(d2 >= minStepRadius*minStepRadius && d2 <= stepRadius*stepRadius))
+				continue;
+
+			var leftFoot = false;
+			var j;
+			for (j in spider.constraints) {
+				var k;
+				for (k=0;k<8;++k) {
+					if (
+						spider.constraints[j] instanceof DistanceConstraint
+						&& spider.constraints[j].a == spider.legs[k]
+						&& spider.constraints[j].b == spiderweb.particles[i])
+					{
+						leftFoot = true;
+					}
+				}
+			}
+			
+			if (!leftFoot)
+				paths.push(spiderweb.particles[i]);
+		}
+	}
+	
+	for (i in spider.constraints) {
+		if (spider.constraints[i] instanceof DistanceConstraint && spider.constraints[i].a == spider.legs[leg]) {
+			spider.constraints.splice(i, 1);
+			break;
+		}
+	}
+	
+	if (paths.length > 0) {
+		shuffle(paths);
+		spider.constraints.push(new DistanceConstraint(spider.legs[leg], paths[0], 1, 0));
+	}
+}
+
+window.onload = function() {
+	var canvas = document.getElementById("scratch");
+
+	
+	var width = parseInt(canvas.style.width);
+	var height = parseInt(canvas.style.height);
+
+	
+	var dpr = 1;
+	canvas.width = width*dpr;
+	canvas.height = height*dpr;
+	canvas.getContext("2d").scale(dpr, dpr);
+
+	
+	var sim = new VerletJS(width, height, canvas);
+	
+	
+	var spiderweb = sim.spiderweb(new Vec2(width/2,height/2), Math.min(width, height)/2, 20, 7);
+
+	var spider = sim.spider(new Vec2(width/2,-300));    
+	
+	
+	spiderweb.drawParticles = function(ctx, composite) {
+		var i;
+		for (i in composite.particles) {
+			var point = composite.particles[i];
+			ctx.beginPath();
+			ctx.arc(point.pos.x, point.pos.y, 1.3, 0, 2*Math.PI);
+			ctx.fillStyle = "#2dad8f";
+			ctx.fill();
+		}
+	}
+		
+		
+	spider.drawConstraints = function(ctx, composite) {
+		var i;
+
+		ctx.beginPath();
+		ctx.arc(spider.head.pos.x, spider.head.pos.y, 4, 0, 2*Math.PI);
+		ctx.fillStyle = "#000";
+		ctx.fill();
+		
+		ctx.beginPath();
+		ctx.arc(spider.thorax.pos.x, spider.thorax.pos.y, 4, 0, 2*Math.PI);
+		ctx.fill();
+		
+		ctx.beginPath();
+		ctx.arc(spider.abdomen.pos.x, spider.abdomen.pos.y, 8, 0, 2*Math.PI);
+		ctx.fill();
+		
+		for (i=3;i<composite.constraints.length;++i) {
+			var constraint = composite.constraints[i];
+			if (constraint instanceof DistanceConstraint) {
+				ctx.beginPath();
+				ctx.moveTo(constraint.a.pos.x, constraint.a.pos.y);
+				ctx.lineTo(constraint.b.pos.x, constraint.b.pos.y);
+				
+				
+				if (
+					(i >= 2 && i <= 4)
+					|| (i >= (2*9)+1 && i <= (2*9)+2)
+					|| (i >= (2*17)+1 && i <= (2*17)+2)
+					|| (i >= (2*25)+1 && i <= (2*25)+2)
+				) {
+					ctx.save();
+					constraint.draw(ctx);
+					ctx.strokeStyle = "#000";
+					ctx.lineWidth = 3;
+					ctx.stroke();
+					ctx.restore();
+				} else if (
+					(i >= 4 && i <= 6)
+					|| (i >= (2*9)+3 && i <= (2*9)+4)
+					|| (i >= (2*17)+3 && i <= (2*17)+4)
+					|| (i >= (2*25)+3 && i <= (2*25)+4)
+				) {
+					ctx.save();
+					constraint.draw(ctx);
+					ctx.strokeStyle = "#000";
+					ctx.lineWidth = 2;
+					ctx.stroke();
+					ctx.restore();
+				} else if (
+					(i >= 6 && i <= 8)
+					|| (i >= (2*9)+5 && i <= (2*9)+6)
+					|| (i >= (2*17)+5 && i <= (2*17)+6)
+					|| (i >= (2*25)+5 && i <= (2*25)+6)
+				) {
+					ctx.save();
+					ctx.strokeStyle = "#000";
+					ctx.lineWidth = 1.5;
+					ctx.stroke();
+					ctx.restore();
+				} else {
+					ctx.strokeStyle = "#000";
+					ctx.stroke();
+				}
+			}
+		}
+	}
+	
+	spider.drawParticles = function(ctx, composite) {
+	}
+	
+	
+	var legIndex = 0;
+	var loop = function() {
+		if (Math.floor(Math.random()*4) == 0) {
+			sim.crawl(((legIndex++)*3)%8);
+		}
+		
+		sim.frame(16);
+		sim.draw();
+		requestAnimFrame(loop);
+	};
+
+	loop();
+};
+</script>
+</html>
+

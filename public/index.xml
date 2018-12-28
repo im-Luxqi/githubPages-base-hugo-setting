@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Day day up</title>
+    <link>https://im-Luxqi.github.io/</link>
+    <description>Recent content on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    <lastBuildDate>Fri, 02 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://im-Luxqi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Excel导入导出（POI）</title>
+      <link>https://im-Luxqi.github.io/post/20181102-broken/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20181102-broken/</guid>
+      <description>&lt;p&gt;记录一些工作中零碎的代码&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>java面试（持续更新中。。。）</title>
+      <link>https://im-Luxqi.github.io/post/20181022-face/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20181022-face/</guid>
+      <description>&lt;p&gt;世道不仁，适者生存&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>动态代理</title>
+      <link>https://im-Luxqi.github.io/post/20181022-proxy/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20181022-proxy/</guid>
+      <description>&lt;p&gt;设计模式更多的是一种语意，而不是一种语法；&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>微信公众号开发小记</title>
+      <link>https://im-Luxqi.github.io/post/20180815-weixin/</link>
+      <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180815-weixin/</guid>
+      <description>&lt;p&gt;主要是一些配置，概念，方便快速入手&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Angular4公共项目模块管理</title>
+      <link>https://im-Luxqi.github.io/post/20180614-public/</link>
+      <pubDate>Thu, 14 Jun 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180614-public/</guid>
+      <description>&lt;p&gt;从npm 本地仓库的创建====》angular4项目的打包====》其他angular4项目的下载调用&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>数据库备份</title>
+      <link>https://im-Luxqi.github.io/post/20180609-backup/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180609-backup/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>正则表达式</title>
+      <link>https://im-Luxqi.github.io/post/20180607-regular/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180607-regular/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;用途：&lt;/strong&gt; &lt;font color=green&gt;字符串匹配、查找、替换；&lt;/font&gt;&lt;br&gt;
+&lt;strong&gt;例如：&lt;/strong&gt;&lt;br&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&lt;font color=green&gt;1.ip地址是否正确&lt;/font&gt;&lt;br&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&lt;font color=green&gt;2.从网页中揪出email地址&lt;/font&gt;&lt;br&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&lt;font color=green&gt;3.从网页中揪出链接&lt;/font&gt;&lt;br&gt;
+积累一下使用过的,常用的正则表达式，方便以后的使用&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://im-Luxqi.github.io/page/workingfile/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/page/workingfile/</guid>
+      <description>| idea 破解 | idea 字体 | Navcat 破解</description>
+    </item>
+    
+    <item>
+      <title>BAT 批处理脚本</title>
+      <link>https://im-Luxqi.github.io/post/20180510-bat/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180510-bat/</guid>
+      <description>&lt;p&gt;很多时候脚本是不可少的，为了看懂脚本，写一些简单脚本，需要了解一些批处理文件的基本命令。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>同事</title>
+      <link>https://im-Luxqi.github.io/page/partner/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/page/partner/</guid>
+      <description>一键到达 1.高泽文&amp;mdash;常州rextec信息技术有限公司&amp;mdash;20180615 
+2.李婉&amp;mdash;常州rextec信息技术有限公司&amp;mdash;20180823</description>
+    </item>
+    
+    <item>
+      <title>学习规划</title>
+      <link>https://im-Luxqi.github.io/page/planning/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/page/planning/</guid>
+      <description> 一、阅读源码 学习经典源码中所用到的经典设计思想及常用设计模式。  tomcat源码参考
+二、分布式架构  三、微服务架构  四、并发编程  五、性能优化  六、开发工具  </description>
+    </item>
+    
+    <item>
+      <title>日常维护</title>
+      <link>https://im-Luxqi.github.io/post/20180507-using/</link>
+      <pubDate>Tue, 08 May 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180507-using/</guid>
+      <description>&lt;p&gt;刚刚开始写blog,有写markdown,hugo书写规范不太熟悉，总结常用的写法，方便日后查阅。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;坚持，加油！！！&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>星齐</title>
+      <link>https://im-Luxqi.github.io/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/page/about/</guid>
+      <description> ，
+my history  2016.3~2016.11 金坛五香居你好鸭食品 2016.12~2017.2 常州常居地产 2017.7.10~2018.9.5 常州瑞克斯信息科技有限公司（常州软件园D417） 2018.10.9 入职 上海通方信息系统有限公司(上海市共和新路2301弄23号)  </description>
+    </item>
+    
+  </channel>
+</rss>

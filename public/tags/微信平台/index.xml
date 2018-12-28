@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>微信平台 on Day day up</title>
+    <link>https://im-Luxqi.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B9%B3%E5%8F%B0/</link>
+    <description>Recent content in 微信平台 on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    <lastBuildDate>Wed, 15 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://im-Luxqi.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B9%B3%E5%8F%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>微信公众号开发小记</title>
+      <link>https://im-Luxqi.github.io/post/20180815-weixin/</link>
+      <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20180815-weixin/</guid>
+      <description>&lt;p&gt;主要是一些配置，概念，方便快速入手&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

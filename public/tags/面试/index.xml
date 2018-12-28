@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>面试 on Day day up</title>
+    <link>https://im-Luxqi.github.io/tags/%E9%9D%A2%E8%AF%95/</link>
+    <description>Recent content in 面试 on Day day up</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>im_Luxqi@163.com (XingQi.wang)</managingEditor>
+    <webMaster>im_Luxqi@163.com (XingQi.wang)</webMaster>
+    <lastBuildDate>Mon, 22 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://im-Luxqi.github.io/tags/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>java面试（持续更新中。。。）</title>
+      <link>https://im-Luxqi.github.io/post/20181022-face/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      <author>im_Luxqi@163.com (XingQi.wang)</author>
+      <guid>https://im-Luxqi.github.io/post/20181022-face/</guid>
+      <description>&lt;p&gt;世道不仁，适者生存&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
